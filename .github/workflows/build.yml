@@ -27,9 +27,12 @@ jobs:
         make gapps_tv_arm64 -j$(nproc)
 
     - name: Creating Release GApps for Android TV (Android 16)
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
-       files: |
-        vendor_gapps_tv/out/MindTheGapps-16.0.0-arm64-ATV-full-*.zip
-       name: GApps For TV (Android 16)
-       tag_name: ATV-16
+        token: ${{ secrets.REPO_TOKEN }}
+        files: |
+          vendor_gapps_tv/out/MindTheGapps-16.0.0-arm64-ATV-full-*.zip
+        name: GApps For TV (Android 16)
+        tag_name: ATV-16
+        draft: false
+        prerelease: false
