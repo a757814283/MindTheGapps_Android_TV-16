@@ -1,9 +1,7 @@
-name: Build GApps for Android TV
+name: Build GApps for Android TV (Android 16)
 
 on:
   workflow_dispatch:
-    branches:
-      - main
 
 jobs:
   build:
@@ -12,26 +10,26 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Update system and install packages
       run: |
         sudo apt-get update
         sudo apt-get install -y bc build-essential curl git lz4 patch python3 repo squashfs-tools wget xz-utils zip
 
-    - name: Clone MindTheGapps For AndroidTV
+    - name: Clone MindTheGapps For AndroidTV (Android 16)
       run: |
-        git clone https://gitlab.com/MindTheGapps/vendor_gapps_tv.git
+        git clone --branch baklava https://gitlab.com/MindTheGapps/vendor_gapps_tv.git
 
     - name: Build GApps for Android TV
       run: |
         cd vendor_gapps_tv
         make gapps_tv_arm64 -j$(nproc)
 
-    - name: Creating Release GApps for Android TV
+    - name: Creating Release GApps for Android TV (Android 16)
       uses: softprops/action-gh-release@v1
       with:
        files: |
-        vendor_gapps_tv/out/MindTheGapps-13.0.0-arm64-ATV-full-*.zip
-       name: GApps For TV
-       tag_name: ATV-13
+        vendor_gapps_tv/out/MindTheGapps-16.0.0-arm64-ATV-full-*.zip
+       name: GApps For TV (Android 16)
+       tag_name: ATV-16
